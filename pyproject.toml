@@ -1,0 +1,13 @@
+[project]
+name = "chat2tabular"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.9.0",
+    "openai>=1.79.0",
+    "pandas>=2.2.3",
+    "typer>=0.15.4",
+]
