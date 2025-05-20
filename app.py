@@ -1,6 +1,7 @@
 import asyncio
 import typer
 
+import services
 from services.server import run_sse, run_stdio
 from services.server import mcp
 

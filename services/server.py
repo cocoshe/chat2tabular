@@ -4,6 +4,7 @@ from typing import Any, List, Dict
 import pandas
 
 from mcp.server.fastmcp import FastMCP
+from mcp.types import SamplingMessage, TextContent
 
 
 
@@ -94,4 +95,29 @@ async def create_tabular_file(
     
     return {"message": f"File {file_path} created successfully."}
     
-    
+@mcp.tool()
+async def delete_tabular_file(
+    file_path: str,
+) -> Dict[str, Any]:
+    """Delete an existing tabular file."""
+    # Check if file exists
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"File {file_path} does not exist.")
+
+    result = await mcp.get_context().session.create_message(
+        messages=[
+            SamplingMessage(
+                role='user', content=TextContent(
+                    type='text', text=f'You sure want to delete the file here: {file_path} (Y)')
+            )
+        ],
+        max_tokens=100
+    )
+    if result.content.text == "Y":
+        # Delete the file
+        os.remove(file_path)
+        return {"message": f"File {file_path} deleted successfully."}
+    return {"message": f"File {file_path} not deleted."}
+
+
+
